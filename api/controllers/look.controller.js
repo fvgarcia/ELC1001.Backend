@@ -1,17 +1,16 @@
-const Look = require('../models/look.model');
+const lookRepo = require('../repos/look.repo');
 
 // Dica: você pode usar req.user para acessar informações do usuário que está fazendo a request.
 
 exports.getAll = async (req, res) => {
     try {
-        // Esse rota deve retornar todos os looks *que pertencem ao usuário*.
-        // Você deve popular as referências para as roupas (clothe_torso, clothe_leg, clothe_feet).
 
-        // Você deve ordenar a resposta de forma que os looks que foram criados
-        // por último apareçam primeiro. Estude o exemplo do arquivo garment.controller.js
-        // para ver como você pode ordenar os resultados diretamente no banco de dados.
+        const { _id } = req.user;
         
-        // Pesquise qual deve ser o código de retorno HTTP quando a requisição foi bem sucedida.
+        const looks = await lookRepo.getAll(_id);
+
+        return res.status(200).send(looks);
+        
     }
     catch(err) {
         console.error(err, err.message, err.stack);
@@ -24,13 +23,15 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        // Essa rota deve retornar todas as informações de um look *se ele pertencer ao usuário*.
-        // Você deve popular as referências para as roupas (clothe_torso, clothe_leg, clothe_feet).
 
-        // Você pode escolher como retornar os dados, contanto que todas as informações
-        // do look estejam presentes.
+        const { _id } = req.user;
+        
+        const { lookId } = req.params;
 
-        // Pesquise qual deve ser o código de retorno HTTP quando a requisição foi bem sucedida.
+        const look = await lookRepo.getById(lookId, _id);
+
+        res.status(200).send(look);
+
     }
     catch(err) {
         console.error(err, err.message, err.stack);
@@ -49,11 +50,11 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        // Essa rota deve criar um novolook no banco de dados e atribuir ele
-        // ao usuário que está fazendo a requisição.
+    
+        const look = await lookRepo.create(req.body);
 
-        // Você pode escolher se quer retornar as informações do look criado.
-        // Pesquise qual deve ser o código de retorno HTTP quando um novo recurso foi criado no banco.
+        res.status(201).send(look);
+
     }
     catch(err) {
         console.error(err, err.message, err.stack);

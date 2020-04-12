@@ -51,3 +51,15 @@ exports.getInfo = (req, res) => {
         });
     }
 };
+
+exports.logout = async (req, res) => {
+    try {
+        
+    } catch (err) {
+        console.error(err, err.message, err.stack);
+
+        res.status(500).send({
+            message: err.message
+        });
+    }
+};
