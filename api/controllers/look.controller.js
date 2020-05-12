@@ -30,7 +30,7 @@ exports.getById = async (req, res) => {
 
         const look = await lookRepo.getById(lookId, _id);
 
-        res.status(200).send(look);
+        return res.status(200).send(look);
 
     }
     catch(err) {
@@ -53,13 +53,13 @@ exports.create = async (req, res) => {
     
         const look = await lookRepo.create(req.body);
 
-        res.status(201).send(look);
+        return res.status(201).send(look);
 
     }
     catch(err) {
         console.error(err, err.message, err.stack);
 
-        res.status(500).send({
+        return res.status(500).send({
             message: err || "An error occured when creating the look."
         });
     }
