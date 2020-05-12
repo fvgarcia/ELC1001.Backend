@@ -12,7 +12,7 @@ exports.getAll = async (ownerId) => {
 
 exports.getById = async (lookId, ownerId) => {
 
-    const look = await Look.find({ _id: lookId, owner: ownerId})
+    const look = await Look.findOne({ _id: lookId, owner: ownerId})
         .populate(['clothe_torso', 'clothe_leg', 'clothe_feet']);
 
     return look;
